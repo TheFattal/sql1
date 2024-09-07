@@ -1,0 +1,253 @@
+CREATE TABLE shopping (id INTEGER PRIMARY KEY, name TEXT, amount
+INTEGER);
+
+-- Create new table called shopping with 3 columns as described
+
+DROP TABLE shopping
+
+-- Deletes table shopping from DB.
+
+ALTER table shopping RENAME to shop
+
+-- Renames table name shopping to shop.
+
+ALTER table shopp RENAME to shopping
+
+-- Renames table name back to "shopping".
+
+INSERT INTO shopping VALUES (1, 'Avokado', 5);
+INSERT INTO shopping VALUES (2, 'Milk', 2);
+INSERT INTO shopping VALUES (3, 'Bread', 3);
+INSERT INTO shopping VALUES (4, 'Chocolate', 8);
+INSERT INTO shopping VALUES (5, 'Bamba', 5);
+INSERT INTO shopping VALUES (6, 'Orange', 10);
+
+-- new  values assigned in 6 rows to the shopping table.
+
+
+select * from shopping
+
+-- Display the complete shopping table.
+
+
+SELECT id, name FROM shopping
+
+-- Shows only the id and name columns in shopping table.
+
+
+SELECT * FROM shopping WHERE amount > 5
+
+-- Shows only rows in the table where the amount is bigger than 5.
+
+
+SELECT * FROM shopping WHERE amount = 2
+
+-- shows only rows where amount is equal to 2 (only milk).
+
+
+SELECT * FROM shopping WHERE name LIKE 'Bamba'
+
+-- Shows rows where the name column is "Bamba".
+
+
+
+DELETE from shopping WHERE name like 'Orange';
+
+-- Deletes the row where name is "Orange" (I made a check with select * from shopping command)
+
+
+UPDATE shopping SET name = 'Bisli' WHERE name LIKE 'Bamba'
+
+-- Changes where name is  "Bamba" to "bisli"
+
+
+UPDATE shopping SET amount=1 WHERE name LIKE 'Milk'
+
+--Changes amount to 1 in rows where the name is "milk"
+
+
+ALTER TABLE shopping ADD COLUMN maavar
+
+-- Adds column "maavar" in the table shopping
+
+
+UPDATE shopping SET maavar=6 WHERE id=1;
+
+-- Adds value 6 to maavar in the row where id is 1
+
+
+UPDATE shopping SET maavar=3 WHERE id=2;
+
+-- Adds value 3 to maavar in the row where id is 2
+
+
+UPDATE shopping SET maavar=12 WHERE id=3;
+
+-- Adds value 12 to maavar in the row where id is 3
+
+
+UPDATE shopping SET maavar=8 WHERE id=4;
+
+-- Adds value 8 to maavar in the row where id is 4
+
+
+UPDATE shopping SET maavar=5 WHERE id=5;
+
+-- Adds value 5 to maavar in the row where id is 5
+
+
+SELECT * FROM shopping WHERE amount > 1 AND maavar > 5
+
+-- Shows rows where only met the 2 conditions.
+
+
+SELECT * FROM shopping WHERE maavar BETWEEN 3 AND 5
+
+-- Shows rows where only met the 2 conditions.
+
+
+
+SELECT * FROM shopping ORDER BY maavar
+
+-- Display the table sorted by maavar values (lowest first from top)
+
+
+SELECT * FROM shopping ORDER BY maavar DESC
+
+-- Display the table sorted by maavar values (highest first from top).
+
+
+
+CREATE TABLE books (id INTEGER PRIMARY KEY, name TEXT);
+
+-- Creates new table in DB called books, With 2 columns id (PK) and name.
+
+
+INSERT INTO books VALUES (1, 'SQL PROGRAMMING');
+INSERT INTO books VALUES (2, 'CSHARP PROGRAMMING');
+
+-- Adds 2 rows to the DB with values assigned.
+
+
+DELETE FROM books;
+
+-- All the content of the table was deleted (The structure remain, NOT like drop command!).
+
+
+
+SELECT COUNT(*)from shopping
+
+-- Shows how many rows are in the table.
+
+
+SELECT MAX(amount) from shopping
+
+-- Shows what is the max amount value only.
+
+
+SELECT AVG(amount) from shopping
+
+-- Shows the average of all amount values (4.4)
+
+
+SELECT MIN(amount) from shopping
+
+-- Shows what is the min amount value only.
+
+
+
+INSERT INTO shopping VALUES (6, 'Onions', 3, 6);
+INSERT INTO shopping VALUES (7, 'Orio', 1, 8);
+
+-- adds 2 new rows of data to the shopping table in the DB.
+
+Select maavar, COUNT(*)FROM shopping GROUP BY maavar
+
+--Shows how many times every value in maavar appears in the table shopping.
+
+
+SELECT id AS "SECRET", name, amount, maavar FROM shopping
+
+--  Shows the column id as "secret" instead of id, and then the other columns described in the command.
+
+
+Select maavar, COUNT(*)FROM shopping GROUP BY maavar HAVING COUNT(*)>1
+
+--Shows the maavar values that appear more than once in the table.
+
+
+CREATE TABLE prices (id INTEGER PRIMARY KEY, price INTEGER);
+-- Creates table prices
+INSERT INTO prices VALUES (1, 3);
+INSERT INTO prices VALUES (2, 7);
+INSERT INTO prices VALUES (3, 12);
+INSERT INTO prices VALUES (4, 5);
+INSERT INTO prices VALUES (5, 3);
+INSERT INTO prices VALUES (6, 2);
+INSERT INTO prices VALUES (7, 10);
+
+--Insert 10 different values to the new table.
+
+SELECT s.id, s.name, s.amount, s.maavar, p.price FROM shopping s JOIN
+prices p ON s.id=p.id
+-- The query shows a combination of the 2 tables, what columns to show. JOIN defines the common column ID.
+
+SELECT s.id, s.name, s.amount, s.maavar, p.price, s.amount * p.price AS
+"SECRET" FROM shopping s JOIN prices p ON s.id=p.id
+
+-- Multiplication: For each row that results from the join operation, the query calculates the product of s.amount (from the shopping table) and p.price (from the prices table). This calculation is performed for each matching pair of rows, And then showed in the new column "SECRET" which is the total price of the specific product.
+
+
+SELECT s.id, s.name, s.amount, s.maavar, p.price FROM shopping s JOIN
+prices p ON s.id=p.id WHERE p.price = (SELECT MAX(price) FROM
+prices)
+
+-- Shows combination of the tables, But shows only the row with the max price (bread).
+
+--20:
+
+CREATE TABLE students (id INTEGER PRIMARY KEY, name TEXT, city TEXT, birth INTEGER);
+CREATE TABLE grades (id INTEGER PRIMARY KEY, grade INTEGER);
+
+INSERT INTO students VALUES (1, 'SHALOM', 'TEL AVIV', 1974);
+INSERT INTO students VALUES (2, 'YURI', 'RAANANA', 1980);
+INSERT INTO students VALUES (3, 'ANAT', 'RISHON', 1994);
+INSERT INTO students VALUES (4, 'DANA', 'REHOVOT', 1990);
+INSERT INTO students VALUES (5, 'OMER', 'JERUSALEM', 1987);
+
+INSERT INTO grades VALUES (1, 77);
+INSERT INTO grades VALUES (2, 87);
+INSERT INTO grades VALUES (3, 99);
+INSERT INTO grades VALUES (4, 92);
+INSERT INTO grades VALUES (5, 57);
+
+SELECT s.name, g.grade
+FROM students s
+JOIN grades g ON s.id = g.id;
+
+SELECT AVG(grade) AS class_average
+FROM grades;
+
+ALTER TABLE grades
+ADD COLUMN excellent TEXT;
+UPDATE grades
+SET excellent = 'NO'
+WHERE grade < 91;
+
+UPDATE grades
+SET excellent = 'YES'
+WHERE grade >= 91;
+
+SELECT AVG(grade) AS class_average
+FROM grades;
+
+SELECT s.name, g.grade
+FROM students s
+JOIN grades g ON s.id = g.id
+WHERE g.grade > (SELECT AVG(grade) FROM grades);
+
+SELECT s.name, g.grade
+FROM students s
+JOIN grades g ON s.id = g.id
+WHERE g.grade = (SELECT MAX(grade) FROM grades);
+
